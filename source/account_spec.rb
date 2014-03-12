@@ -41,19 +41,29 @@ describe Account do
   end
 
   describe "deposit!" do
+    it "should increase the balance" do
+      old_balance = account.balance
+      account.deposit!(1000)
+      old_balance.should be < account.balance
+    end
 
+    it 'should raise an error for negative amounts' do
+      expect{ account.deposit!(-1) }.to raise_error(NegativeDepositError)
+    end
   end
 
   describe "#withdraw!" do
+    it 'should decrease the balance' do
+      account.deposit!(5)
+      old_balance = account.balance
+      account.withdraw!(1)
+      account.balance.should be < old_balance
+    end
+
+    it 'should raise and error for negative balances' do
+      expect{ account.withdraw!(1) }.to raise_error(OverdraftError)
+    end
 
   end
 
 end
-
-# What are the valid inputs, if any, for this method?
-# An account number.
-# What constitutes expected return values?
-# 
-# What constitutes unexpected return values?
-# Does the method cause changes to the state of the program?
-# What defines a happy path scenario? What about a sad path?
